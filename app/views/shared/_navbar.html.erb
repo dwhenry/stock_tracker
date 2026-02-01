@@ -14,8 +14,16 @@
     </div>
 
     <div class="navbar-user">
-      <span class="user-name"><%= current_user&.name %></span>
-      <%= button_to "Logout", session_path, method: :delete, class: "btn btn-sm btn-outline" %>
+      <div class="user-dropdown" data-controller="dropdown">
+        <button type="button" class="user-dropdown-trigger" data-action="click->dropdown#toggle">
+          <span class="user-name"><%= current_user&.name %></span>
+          <span class="dropdown-arrow">▼</span>
+        </button>
+        <div class="user-dropdown-menu" data-dropdown-target="menu">
+          <%= link_to "Change Password", edit_account_path, class: "dropdown-item" %>
+          <%= button_to "Logout", session_path, method: :delete, class: "dropdown-item dropdown-item-danger" %>
+        </div>
+      </div>
     </div>
   <% else %>
     <div class="navbar-links">

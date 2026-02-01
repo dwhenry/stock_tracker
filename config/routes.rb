@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   # Authentication
   resource :session
   resources :passwords, param: :token
+  resource :account, only: [:edit, :update]
 
   # User management (admin only)
   resources :users, except: [:show] do
