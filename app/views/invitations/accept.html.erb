@@ -1,0 +1,31 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>📊 Stock Tracker</h1>
+      <p>Set your password</p>
+    </div>
+
+    <% if flash[:alert] %>
+      <div class="flash flash-alert">
+        <span><%= flash[:alert] %></span>
+      </div>
+    <% end %>
+
+    <div class="welcome-message">
+      <p>Welcome, <strong><%= @user.name %></strong>!</p>
+      <p>Please set a password to activate your account.</p>
+    </div>
+
+    <%= form_with url: complete_invitation_path(token: @user.invitation_token), method: :post, class: "form" do |form| %>
+      <div class="form-group">
+        <%= form.label :password, class: "form-label" %>
+        <%= form.password_field :password, class: "form-input", placeholder: "Enter your password", autofocus: true, autocomplete: "new-password" %>
+        <span class="form-hint">Minimum 8 characters</span>
+      </div>
+
+      <div class="form-actions">
+        <%= form.submit "Activate Account", class: "btn btn-primary btn-full" %>
+      </div>
+    <% end %>
+  </div>
+</div>

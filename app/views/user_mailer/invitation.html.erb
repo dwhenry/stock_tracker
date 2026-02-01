@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #1e293b;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
+      background: linear-gradient(135deg, #0d9488, #14b8a6);
+      color: white;
+      padding: 24px;
+      border-radius: 12px 12px 0 0;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .content {
+      background: #f8fafc;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+    }
+    .button {
+      display: inline-block;
+      background: #0d9488;
+      color: white !important;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 16px 0;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 14px;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>📊 Stock Tracker</h1>
+  </div>
+
+  <div class="content">
+    <h2>Welcome, <%= @user.name %>!</h2>
+
+    <p>You've been invited to join Stock Tracker. Click the button below to set your password and get started:</p>
+
+    <p style="text-align: center;">
+      <a href="<%= @invitation_url %>" class="button">Set Up Your Account</a>
+    </p>
+
+    <p>Or copy and paste this link into your browser:</p>
+    <p style="word-break: break-all; font-size: 14px; color: #64748b;"><%= @invitation_url %></p>
+
+    <p><strong>Note:</strong> This invitation link will expire in 7 days.</p>
+
+    <div class="footer">
+      <p>If you didn't expect this invitation, you can safely ignore this email.</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>📊 Stock Tracker</h1>
+      <p>Reset your password</p>
+    </div>
+
+    <% if flash[:alert] %>
+      <div class="flash flash-alert">
+        <span><%= flash[:alert] %></span>
+      </div>
+    <% end %>
+
+    <%= form_with url: passwords_path, class: "form" do |form| %>
+      <div class="form-group">
+        <%= form.label :email_address, "Email", class: "form-label" %>
+        <%= form.email_field :email_address, class: "form-input", required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email", value: params[:email_address] %>
+      </div>
+
+      <div class="form-actions">
+        <%= form.submit "Send Reset Instructions", class: "btn btn-primary btn-full" %>
+      </div>
+    <% end %>
+
+    <div class="auth-links">
+      <%= link_to "Back to login", new_session_path %>
+    </div>
+  </div>
+</div>

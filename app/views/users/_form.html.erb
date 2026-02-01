@@ -1,0 +1,41 @@
+<%= form_with model: user, class: "form" do |form| %>
+  <% if user.errors.any? %>
+    <div class="form-errors">
+      <h4><%= pluralize(user.errors.count, "error") %> prevented this user from being saved:</h4>
+      <ul>
+        <% user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-input", placeholder: "Enter full name" %>
+  </div>
+
+  <% if user.new_record? %>
+    <div class="form-group">
+      <%= form.label :email_address, "Email", class: "form-label" %>
+      <%= form.email_field :email_address, class: "form-input", placeholder: "Enter email address" %>
+    </div>
+  <% else %>
+    <div class="form-group">
+      <%= form.label :email_address, "Email", class: "form-label" %>
+      <p class="form-static"><%= user.email_address %></p>
+      <span class="form-hint">Email cannot be changed after creation</span>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :role, class: "form-label" %>
+    <%= form.select :role, User::ROLES.map { |r| [r.titleize, r] }, {}, class: "form-input" %>
+    <span class="form-hint">Admins can manage users, basic users can manage stock only</span>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", users_path, class: "btn btn-outline" %>
+  </div>
+<% end %>
