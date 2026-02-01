@@ -1,0 +1,18 @@
+LOW STOCK ALERT - Stock Tracker
+================================
+
+Dear <%= @customer.name %>,
+
+The following items have dropped to or below their alert thresholds and require attention:
+
+<% @low_stock_items.each do |stock| %>
+- <%= stock.accessory.name %>
+  Current Stock: <%= stock.quantity %>
+  Alert Threshold: <%= stock.accessory.alert_when_stock_below %>
+
+<% end %>
+
+Please arrange to replenish these items as soon as possible to avoid stockouts.
+
+---
+This is an automated message from Stock Tracker.

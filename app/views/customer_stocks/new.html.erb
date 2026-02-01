@@ -1,0 +1,22 @@
+<div class="page-header">
+  <div class="breadcrumb">
+    <%= link_to "Customers", customers_path %> / <%= link_to @customer.name, customer_customer_stocks_path(@customer) %> / <span>Add Stock</span>
+  </div>
+  <h1>Add Stock for <%= @customer.name %></h1>
+</div>
+
+<% if @available_accessories.any? %>
+  <div class="card form-card">
+    <%= render "form", customer_stock: @customer_stock %>
+  </div>
+<% else %>
+  <div class="empty-state">
+    <div class="empty-state-icon">📦</div>
+    <h3>No accessories available</h3>
+    <p>All accessories have already been added to this customer's stock, or no accessories exist yet.</p>
+    <div class="button-group">
+      <%= link_to "Manage Accessories", accessories_path, class: "btn btn-primary" %>
+      <%= link_to "Back to Stock", customer_customer_stocks_path(@customer), class: "btn btn-outline" %>
+    </div>
+  </div>
+<% end %>

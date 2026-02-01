@@ -1,0 +1,73 @@
+<div class="page-header">
+  <div class="breadcrumb">
+    <%= link_to "Customers", customers_path %> / <%= link_to @customer.name, customer_customer_stocks_path(@customer) %> / <span>Checkout</span>
+  </div>
+  <h1>Checkout for <%= @customer.name %></h1>
+</div>
+
+<% if @customer_stocks.any? %>
+  <div class="checkout-container" data-controller="checkout">
+    <div class="checkout-main">
+      <h2>Available Stock</h2>
+      <p class="checkout-hint">Click on items to add them to the checkout list</p>
+
+      <div class="checkout-stock-grid">
+        <% @customer_stocks.each do |stock| %>
+          <div class="checkout-item"
+               data-checkout-target="stockItem"
+               data-stock-id="<%= stock.id %>"
+               data-stock-name="<%= stock.accessory.name %>"
+               data-stock-quantity="<%= stock.quantity %>"
+               data-action="click->checkout#addItem">
+            <div class="checkout-item-image">
+              <% if stock.accessory.image.attached? %>
+                <%= image_tag stock.accessory.image, alt: stock.accessory.name %>
+              <% else %>
+                <div class="no-image">📦</div>
+              <% end %>
+            </div>
+            <div class="checkout-item-info">
+              <h4><%= stock.accessory.name %></h4>
+              <p class="available">Available: <strong><%= stock.quantity %></strong></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="checkout-sidebar">
+      <div class="checkout-cart card">
+        <h3>Checkout List</h3>
+
+        <div class="cart-items" data-checkout-target="cartItems">
+          <p class="empty-cart" data-checkout-target="emptyCart">Click items to add them to checkout</p>
+        </div>
+
+        <%= form_with url: customer_checkout_path(@customer), method: :post, data: { checkout_target: "form" } do |f| %>
+          <div data-checkout-target="formInputs"></div>
+
+          <div class="cart-total" data-checkout-target="cartTotal" style="display: none;">
+            <span>Total Items:</span>
+            <strong data-checkout-target="totalCount">0</strong>
+          </div>
+
+          <div class="cart-actions">
+            <button type="submit" class="btn btn-accent btn-full" data-checkout-target="submitBtn" disabled>
+              Complete Checkout
+            </button>
+            <button type="button" class="btn btn-outline btn-full" data-action="checkout#clearCart">
+              Clear All
+            </button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="empty-state">
+    <div class="empty-state-icon">🛒</div>
+    <h3>No stock available</h3>
+    <p>This customer has no items in stock to checkout.</p>
+    <%= link_to "Add Stock", new_customer_customer_stock_path(@customer), class: "btn btn-primary" %>
+  </div>
+<% end %>

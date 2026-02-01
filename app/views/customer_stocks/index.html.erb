@@ -1,0 +1,50 @@
+<div class="page-header">
+  <div class="header-content">
+    <div class="breadcrumb">
+      <%= link_to "Customers", customers_path %> / <span><%= @customer.name %></span>
+    </div>
+    <h1>Stock for <%= @customer.name %></h1>
+  </div>
+  <div class="header-actions">
+    <%= link_to "Add Stock", new_customer_customer_stock_path(@customer), class: "btn btn-primary" %>
+    <%= link_to "Checkout", new_customer_checkout_path(@customer), class: "btn btn-accent" %>
+  </div>
+</div>
+
+<% if @customer_stocks.any? %>
+  <div class="stock-grid">
+    <% @customer_stocks.each do |stock| %>
+      <div class="stock-card <%= 'low-stock' if stock.low_stock? %>">
+        <div class="stock-image">
+          <% if stock.accessory.image.attached? %>
+            <%= image_tag stock.accessory.image, alt: stock.accessory.name %>
+          <% else %>
+            <div class="no-image">📦</div>
+          <% end %>
+        </div>
+        <div class="stock-info">
+          <h3><%= stock.accessory.name %></h3>
+          <div class="stock-quantity">
+            <span class="quantity <%= 'danger' if stock.low_stock? %>"><%= stock.quantity %></span>
+            <span class="label">in stock</span>
+          </div>
+          <% if stock.low_stock? %>
+            <div class="low-stock-badge">⚠️ Low Stock (Alert: <%= stock.accessory.alert_when_stock_below %>)</div>
+          <% end %>
+        </div>
+        <div class="stock-actions">
+          <%= link_to "History", customer_customer_stock_path(@customer, stock), class: "btn btn-sm btn-secondary" %>
+          <%= link_to "Edit", edit_customer_customer_stock_path(@customer, stock), class: "btn btn-sm btn-outline" %>
+          <%= link_to "Delete", customer_customer_stock_path(@customer, stock), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="empty-state">
+    <div class="empty-state-icon">📋</div>
+    <h3>No stock items yet</h3>
+    <p>Add stock items for this customer.</p>
+    <%= link_to "Add Stock", new_customer_customer_stock_path(@customer), class: "btn btn-primary" %>
+  </div>
+<% end %>

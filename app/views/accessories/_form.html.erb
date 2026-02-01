@@ -1,0 +1,44 @@
+<%= form_with model: accessory, class: "form" do |form| %>
+  <% if accessory.errors.any? %>
+    <div class="form-errors">
+      <h4><%= pluralize(accessory.errors.count, "error") %> prevented this accessory from being saved:</h4>
+      <ul>
+        <% accessory.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-input", placeholder: "Enter accessory name" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :barcode, class: "form-label" %>
+    <%= form.text_field :barcode, class: "form-input", placeholder: "Enter unique barcode" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :alert_when_stock_below, "Alert Threshold", class: "form-label" %>
+    <%= form.number_field :alert_when_stock_below, class: "form-input", min: 0, placeholder: "Alert when stock drops below this number" %>
+    <span class="form-hint">You'll be notified when stock falls to or below this level</span>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :image, class: "form-label" %>
+    <% if accessory.image.attached? %>
+      <div class="current-image">
+        <%= image_tag accessory.image, class: "preview-image" %>
+        <p class="image-hint">Current image - upload a new one to replace</p>
+      </div>
+    <% end %>
+    <%= form.file_field :image, class: "form-input file-input", accept: "image/*" %>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", accessories_path, class: "btn btn-outline" %>
+  </div>
+<% end %>

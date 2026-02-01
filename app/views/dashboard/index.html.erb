@@ -1,0 +1,96 @@
+<div class="dashboard">
+  <div class="page-header">
+    <h1>Dashboard</h1>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <div class="stat-content">
+        <span class="stat-number"><%= @customers_count %></span>
+        <span class="stat-label">Customers</span>
+      </div>
+      <%= link_to "Manage", customers_path, class: "stat-link" %>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">📦</div>
+      <div class="stat-content">
+        <span class="stat-number"><%= @accessories_count %></span>
+        <span class="stat-label">Accessories</span>
+      </div>
+      <%= link_to "Manage", accessories_path, class: "stat-link" %>
+    </div>
+
+    <div class="stat-card alert-card">
+      <div class="stat-icon">⚠️</div>
+      <div class="stat-content">
+        <span class="stat-number"><%= @low_stock_items.count %></span>
+        <span class="stat-label">Low Stock Alerts</span>
+      </div>
+    </div>
+  </div>
+
+  <% if @low_stock_items.any? %>
+    <div class="card">
+      <h2 class="card-title">Low Stock Items</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Accessory</th>
+            <th>Current Stock</th>
+            <th>Alert Threshold</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @low_stock_items.each do |stock| %>
+            <tr class="low-stock-row">
+              <td><%= stock.customer.name %></td>
+              <td><%= stock.accessory.name %></td>
+              <td class="danger"><%= stock.quantity %></td>
+              <td><%= stock.accessory.alert_when_stock_below %></td>
+              <td>
+                <%= link_to "View Stock", customer_customer_stocks_path(stock.customer), class: "btn btn-sm btn-secondary" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="card">
+      <div class="empty-state compact">
+        <div class="empty-state-icon">✅</div>
+        <h3>All stock levels healthy</h3>
+        <p>No items are currently below their alert thresholds.</p>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="quick-actions">
+    <h2>Quick Actions</h2>
+    <div class="action-buttons">
+      <%= link_to customers_path, class: "action-card" do %>
+        <span class="action-icon">👥</span>
+        <span class="action-text">Manage Customers</span>
+      <% end %>
+
+      <%= link_to accessories_path, class: "action-card" do %>
+        <span class="action-icon">📦</span>
+        <span class="action-text">Manage Accessories</span>
+      <% end %>
+
+      <%= link_to new_customer_path, class: "action-card" do %>
+        <span class="action-icon">➕</span>
+        <span class="action-text">Add Customer</span>
+      <% end %>
+
+      <%= link_to new_accessory_path, class: "action-card" do %>
+        <span class="action-icon">🆕</span>
+        <span class="action-text">Add Accessory</span>
+      <% end %>
+    </div>
+  </div>
+</div>

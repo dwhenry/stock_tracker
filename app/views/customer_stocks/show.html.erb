@@ -1,0 +1,76 @@
+<div class="page-header">
+  <div class="breadcrumb">
+    <%= link_to "Customers", customers_path %> / <%= link_to @customer.name, customer_customer_stocks_path(@customer) %> / <span><%= @customer_stock.accessory.name %> History</span>
+  </div>
+  <h1>Stock History: <%= @customer_stock.accessory.name %></h1>
+</div>
+
+<div class="stock-summary card">
+  <div class="summary-item">
+    <div class="summary-image">
+      <% if @customer_stock.accessory.image.attached? %>
+        <%= image_tag @customer_stock.accessory.image %>
+      <% else %>
+        <div class="no-image">📦</div>
+      <% end %>
+    </div>
+    <div class="summary-details">
+      <h2><%= @customer_stock.accessory.name %></h2>
+      <div class="summary-stats">
+        <div class="stat">
+          <span class="stat-value <%= 'danger' if @customer_stock.low_stock? %>"><%= @customer_stock.quantity %></span>
+          <span class="stat-label">Current Stock</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value"><%= @customer_stock.accessory.alert_when_stock_below %></span>
+          <span class="stat-label">Alert Threshold</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value"><%= @adjustments.sum(&:quantity_change) %></span>
+          <span class="stat-label">Net Adjustments</span>
+        </div>
+      </div>
+      <% if @customer_stock.low_stock? %>
+        <div class="low-stock-badge">⚠️ Stock is at or below alert threshold!</div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h3 class="card-title">Adjustment History</h3>
+  <% if @adjustments.any? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Type</th>
+          <th>Change</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @adjustments.each do |adjustment| %>
+          <tr>
+            <td><%= adjustment.created_at.strftime("%b %d, %Y %H:%M") %></td>
+            <td>
+              <span class="badge badge-<%= adjustment.adjustment_type %>">
+                <%= adjustment.adjustment_type.titleize %>
+              </span>
+            </td>
+            <td class="<%= adjustment.quantity_change >= 0 ? 'positive' : 'negative' %>">
+              <%= adjustment.quantity_change >= 0 ? '+' : '' %><%= adjustment.quantity_change %>
+            </td>
+            <td><%= adjustment.notes || '-' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="empty-message">No adjustments recorded yet.</p>
+  <% end %>
+</div>
+
+<div class="page-actions">
+  <%= link_to "Back to Stock", customer_customer_stocks_path(@customer), class: "btn btn-outline" %>
+</div>

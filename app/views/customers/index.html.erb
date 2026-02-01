@@ -1,0 +1,41 @@
+<div class="page-header">
+  <h1>Customers</h1>
+  <%= link_to "Add Customer", new_customer_path, class: "btn btn-primary" %>
+</div>
+
+<% if @customers.any? %>
+  <div class="card">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Stock Items</th>
+          <th class="actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @customers.each do |customer| %>
+          <tr>
+            <td><%= customer.name %></td>
+            <td><%= customer.email %></td>
+            <td><%= customer.customer_stocks.count %></td>
+            <td class="actions">
+              <%= link_to "Stock", customer_customer_stocks_path(customer), class: "btn btn-sm btn-secondary" %>
+              <%= link_to "Checkout", new_customer_checkout_path(customer), class: "btn btn-sm btn-accent" %>
+              <%= link_to "Edit", edit_customer_path(customer), class: "btn btn-sm btn-outline" %>
+              <%= link_to "Delete", customer_path(customer), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this customer?" }, class: "btn btn-sm btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="empty-state">
+    <div class="empty-state-icon">👥</div>
+    <h3>No customers yet</h3>
+    <p>Add your first customer to get started.</p>
+    <%= link_to "Add Customer", new_customer_path, class: "btn btn-primary" %>
+  </div>
+<% end %>

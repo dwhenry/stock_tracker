@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer_stock: one
+  quantity_change: 1
+  adjustment_type: MyString
+  notes: MyText
+
+two:
+  customer_stock: two
+  quantity_change: 1
+  adjustment_type: MyString
+  notes: MyText

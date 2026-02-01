@@ -1,0 +1,36 @@
+<div class="page-header">
+  <h1>Accessories</h1>
+  <%= link_to "Add Accessory", new_accessory_path, class: "btn btn-primary" %>
+</div>
+
+<% if @accessories.any? %>
+  <div class="accessories-grid">
+    <% @accessories.each do |accessory| %>
+      <div class="accessory-card">
+        <div class="accessory-image">
+          <% if accessory.image.attached? %>
+            <%= image_tag accessory.image, alt: accessory.name %>
+          <% else %>
+            <div class="no-image">📦</div>
+          <% end %>
+        </div>
+        <div class="accessory-info">
+          <h3><%= accessory.name %></h3>
+          <p class="barcode">Barcode: <code><%= accessory.barcode %></code></p>
+          <p class="alert-level">Alert when below: <strong><%= accessory.alert_when_stock_below %></strong></p>
+        </div>
+        <div class="accessory-actions">
+          <%= link_to "Edit", edit_accessory_path(accessory), class: "btn btn-sm btn-outline" %>
+          <%= link_to "Delete", accessory_path(accessory), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this accessory?" }, class: "btn btn-sm btn-danger" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="empty-state">
+    <div class="empty-state-icon">📦</div>
+    <h3>No accessories yet</h3>
+    <p>Add your first accessory (stock type) to get started.</p>
+    <%= link_to "Add Accessory", new_accessory_path, class: "btn btn-primary" %>
+  </div>
+<% end %>

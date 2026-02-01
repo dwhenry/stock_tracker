@@ -1,0 +1,27 @@
+<%= form_with model: customer, class: "form" do |form| %>
+  <% if customer.errors.any? %>
+    <div class="form-errors">
+      <h4><%= pluralize(customer.errors.count, "error") %> prevented this customer from being saved:</h4>
+      <ul>
+        <% customer.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-input", placeholder: "Enter customer name" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :email, class: "form-label" %>
+    <%= form.email_field :email, class: "form-input", placeholder: "Enter email address" %>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", customers_path, class: "btn btn-outline" %>
+  </div>
+<% end %>
