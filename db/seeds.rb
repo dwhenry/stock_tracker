@@ -5,7 +5,7 @@
 if User.count.zero?
   admin = User.create!(
     name: "Admin",
-    email_address: "admin@example.com",
+    email_address: "admin@stock-tracker.com",
     password: "password123",
     role: "admin"
   )
